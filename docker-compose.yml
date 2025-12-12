@@ -1,0 +1,11 @@
+version: '3.1'
+
+volumes:
+  cianDB-data:
+    driver: local
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
