@@ -32,17 +32,43 @@ class ExcelExporterTest {
         assertTrue(Files.exists(xlsx), "XLSX must be created");
 
         try (InputStream in = Files.newInputStream(xlsx); XSSFWorkbook wb = new XSSFWorkbook(in)) {
-            assertNotNull(wb.getSheet("participants"));
-            assertNotNull(wb.getSheet("mentions"));
-            assertNotNull(wb.getSheet("channels"));
+            var participantsSheet = wb.getSheet("Участники");
+            var mentionsSheet = wb.getSheet("Упоминания");
+            var channelsSheet = wb.getSheet("Каналы");
 
-            var sheet = wb.getSheet("participants");
+            assertNotNull(participantsSheet);
+            assertNotNull(mentionsSheet);
+            assertNotNull(channelsSheet);
+
             // header is on row index 2
-            var headerRow = sheet.getRow(2);
-            assertNotNull(headerRow);
-            assertEquals("Дата экспорта", headerRow.getCell(0).getStringCellValue());
-            assertEquals("Username", headerRow.getCell(1).getStringCellValue());
-            assertEquals("Имя и фамилия", headerRow.getCell(2).getStringCellValue());
+            var participantsHeader = participantsSheet.getRow(2);
+            assertNotNull(participantsHeader);
+            assertEquals("Дата экспорта", participantsHeader.getCell(0).getStringCellValue());
+            assertEquals("Имя и фамилия", participantsHeader.getCell(1).getStringCellValue());
+            assertEquals("Описание (Bio)", participantsHeader.getCell(2).getStringCellValue());
+            assertEquals("Дата регистрации", participantsHeader.getCell(3).getStringCellValue());
+            assertEquals("Наличие канала", participantsHeader.getCell(4).getStringCellValue());
+
+            var mentionsHeader = mentionsSheet.getRow(2);
+            assertNotNull(mentionsHeader);
+            assertEquals("Дата экспорта", mentionsHeader.getCell(0).getStringCellValue());
+            assertEquals("Username", mentionsHeader.getCell(1).getStringCellValue());
+            assertEquals("Описание (Bio)", mentionsHeader.getCell(2).getStringCellValue());
+            assertEquals("Дата регистрации", mentionsHeader.getCell(3).getStringCellValue());
+            assertEquals("Наличие канала", mentionsHeader.getCell(4).getStringCellValue());
+
+            var channelsHeader = channelsSheet.getRow(2);
+            assertNotNull(channelsHeader);
+            assertEquals("Дата экспорта", channelsHeader.getCell(0).getStringCellValue());
+            assertEquals("Username", channelsHeader.getCell(1).getStringCellValue());
+            assertEquals("Описание (Bio)", channelsHeader.getCell(2).getStringCellValue());
+            assertEquals("Дата регистрации", channelsHeader.getCell(3).getStringCellValue());
+            assertEquals("Наличие канала", channelsHeader.getCell(4).getStringCellValue());
+
+            // spot-check data row (starts at row index 3)
+            assertEquals("Alice", participantsSheet.getRow(3).getCell(1).getStringCellValue());
+            assertEquals("@bob", mentionsSheet.getRow(3).getCell(1).getStringCellValue());
+            assertEquals("@my_channel", channelsSheet.getRow(3).getCell(1).getStringCellValue());
         }
     }
 }
