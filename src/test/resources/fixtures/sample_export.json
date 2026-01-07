@@ -1,0 +1,48 @@
+{
+  "name": "Test Chat",
+  "type": "chat",
+  "messages": [
+    {
+      "id": 1,
+      "type": "message",
+      "date": "2025-01-01T00:00:00",
+      "from": "Alice @alice",
+      "text": "Hello @bob, check https://t.me/my_channel"
+    },
+    {
+      "id": 2,
+      "type": "message",
+      "date": "2025-01-01T00:01:00",
+      "from": "Bob",
+      "text": [
+        {
+          "type": "mention",
+          "text": "@carol"
+        },
+        " and ",
+        {
+          "type": "text_link",
+          "text": "channel2",
+          "href": "https://t.me/chan2"
+        }
+      ],
+      "text_entities": [
+        {
+          "type": "mention",
+          "text": "@dave"
+        },
+        {
+          "type": "text_link",
+          "href": "https://t.me/chan3"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "message",
+      "date": "2025-01-01T00:02:00",
+      "from": "Deleted Account",
+      "text": "Hi @bob"
+    }
+  ]
+}
