@@ -1,3 +1,9 @@
 /.idea/
 /logfile.log
 /target/
+
+# secrets
+.env
+
+# editor
+/.vscode/

@@ -131,7 +131,7 @@ public class Bot extends TelegramLongPollingBot {
         }
 
         if (s.getFiles().size() >= Constants.MAX_FILES) {
-            // по ТЗ — предлагаем новую сессию
+            //предлагаем новую сессию
             SendMessage m = new SendMessage(String.valueOf(chatId),
                     "Можно загрузить не более 10 файлов за одну обработку.  \nНачните новую сессию.");
             m.setReplyMarkup(Keyboards.processOtherMenu());

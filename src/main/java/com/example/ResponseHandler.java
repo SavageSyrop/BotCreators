@@ -9,7 +9,7 @@ import static com.example.enums.UserState.WAITING_FILES;
 
 public class ResponseHandler {
     /**
-     * В проекте используется TelegramLongPollingBot, поэтому вместо AbilityBots SilentSender
+     * В проекте используется TelegramLongPollingBot, поэтому
      * используем стандартный AbsSender (bot.execute(...)).
      */
     private final AbsSender sender;

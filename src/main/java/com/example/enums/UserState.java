@@ -1,7 +1,7 @@
 package com.example.enums;
 
 /**
- * Состояния пользовательской сессии согласно ТЗ.
+ * Состояния пользовательской сессии
  */
 public enum UserState {
     WAITING_FILES,

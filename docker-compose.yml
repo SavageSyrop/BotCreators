@@ -1,11 +1,12 @@
-version: '3.1'
-
-volumes:
-  cianDB-data:
-    driver: local
-
 services:
-  app:
+  bot:
     build: .
-    ports:
-      - "8080:8080"
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_NAME: ${BOT_NAME}
+    restart: unless-stopped
+
+    # Long polling: входящий порт не нужен.
+    # Если позже добавите webhook/actuator — тогда можно раскомментировать ports.
+    # ports:
+    #   - "8080:8080"
