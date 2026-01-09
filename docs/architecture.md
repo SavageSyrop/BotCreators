@@ -126,27 +126,21 @@ flowchart TD
 ## 5. Архитектура компонентов
 
 ```mermaid
-flowchart TD
-    A["Пользователь /start"] --> B["Bot: reset session, WAITING_FILES"]
-    B --> C["Пользователь отправляет JSON файлы"]
-    C --> D{"Файл валиден? .json"}
-    D -- "нет" --> E["Сообщение об ошибке формата"]
-    D -- "да" --> F["Сохраняем FileMeta в Session.files"]
-    F --> G{"files.size >= 1 ?"}
-    G -- "да" --> H["State = READY_TO_PROCESS<br/>Показываем кнопку «Начать обработку»"]
-    H --> I["Пользователь нажимает «Начать обработку»"]
-    I --> J["State = PROCESSING<br/>Сообщение: «Начинаю обработку N файлов...»"]
-    J --> K["Цикл по файлам 1..N"]
-    K --> L["Скачать 1 файл через Bot API"]
-    L --> M["Парсинг + дедуп + сбор ResultBundle"]
-    M --> N{"participants <= 50?"}
-    N -- "да" --> O["Отправить текстовый результат + «Файл i/N обработан»"]
-    N -- "нет" --> P["Сформировать XLSX и отправить документ + «Файл i/N обработан»"]
-    O --> Q{"Последний файл?"}
-    P --> Q
-    Q -- "нет" --> K
-    Q -- "да" --> R["Сбросить сессию (IDLE)"]
-
+flowchart LR
+    U[User / Telegram Client] --> T[Telegram Bot API]
+    T -->|"Updates (long polling)"| B[Bot.java]
+    B --> S[SessionStore]
+    B -->|downloadFile| T
+    B --> C[ChatExportService]
+    C --> P[TelegramJsonExportParser]
+    P --> D[Deduplicator]
+    P --> RB[ResultBundle]
+    RB -->|<=50| TXT[TextResultFormatter]
+    RB -->|>=51| XLSX[ExcelExporter]
+    TXT --> B
+    XLSX --> B
+    B -->|"sendMessage / sendDocument"| T
+    T --> U
 ```
 
 ---
